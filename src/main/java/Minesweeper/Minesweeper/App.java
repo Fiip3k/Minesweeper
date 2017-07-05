@@ -5,7 +5,7 @@ import java.awt.GridLayout;
 import javax.swing.JFrame;
 
 /**
- * Hello world!
+ * Klasa zawierająca okno. Odpowiedzialna za rozpoczęcie aplikacji i utworzenie nowej gry.
  *
  */
 public class App
@@ -17,6 +17,12 @@ public class App
 	private static MineField mf;
 	private static JFrame f;
 	
+	/**
+	 * Konstruktor rozpoczynający aplikację.
+	 * @param x Wymiar X okna.
+	 * @param y Wymiar Y okna.
+	 */
+	
 	private App(int x, int y){
 		f = new JFrame();
 		f.setSize(x, y);
@@ -25,9 +31,7 @@ public class App
 		mf = new MineField(size,size);
 		f.add(mf);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setVisible(true);	
-		
-		
+		f.setVisible(true);		
 	}
 	
 	
@@ -37,6 +41,9 @@ public class App
     }
 
 
+	/**
+	 * Metoda usuwająca starą, wygraną lub przegraną grę i rozpoczynająca nową rundę.
+	 */
 	public static void newGame() {
 		f.remove(mf);
 		mf = new MineField(size,size);
@@ -44,6 +51,5 @@ public class App
 		
 		f.revalidate();
 		f.repaint();
-		System.out.println("asd");
 	}
 }

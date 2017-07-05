@@ -6,10 +6,11 @@ import java.util.Random;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+/**
+ * Klasa reprezentująca pole minowe. Tworzy pojedyncze pola, a następnie zaminowuje losowe z nich.
+ */
 public class MineField extends JPanel{
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private int x;
 	private int y;
@@ -18,7 +19,13 @@ public class MineField extends JPanel{
 	private Tile tiles[][];
 	private GridLayout layout;
 	private int layoutGap = 2;
+	private boolean won = false;
 	
+	/**
+	 * Konstruktor tworzący nowe pole minowe.
+	 * @param x Ilość pól w wymiarze X.
+	 * @param y Ilość pól w wymiarze Y.
+	 */
 	public MineField(int x, int y){
 		this.x = x;
 		this.y = y;
@@ -32,10 +39,12 @@ public class MineField extends JPanel{
 		setMines();
 	}
 	
+	/**
+	 * Metoda rozstawiająca miny na polu.
+	 */
 	private void setMines(){
 		int mapSize = x*y;
 		bombs = (int) (mapSize * mineMultiplier);
-		bombs = 2;
 		Random r = new Random();
 		for(int i = 0; i < bombs; i++){
 			int mX;
@@ -53,6 +62,11 @@ public class MineField extends JPanel{
 		}
 	}
 	
+	/**
+	 * Metoda informująca pola o pobliskiej minie.
+	 * @param mX Pozycja X miny.
+	 * @param mY Pozycja Y miny.
+	 */
 	private void informSurroundingsAboutBombs(int mX, int mY) {
 		for(int i = -1; i < 2; i++){
 			for(int j = -1; j < 2; j++){
@@ -70,6 +84,12 @@ public class MineField extends JPanel{
 		}		
 	}
 	
+	
+	/**
+	 * Metoda informująca pola o możliwości odkrycia się.
+	 * @param mX Pozycja X pola informującego.
+	 * @param mY Pozycja Y pola informującego.
+	 */
 	public void informSurroundingsAboutBlank(int mX, int mY) {
 		for(int i = -1; i < 2; i++){
 			for(int j = -1; j < 2; j++){
@@ -87,6 +107,10 @@ public class MineField extends JPanel{
 		}		
 	}
 
+	
+	/**
+	 * Metoda tworząca puste pole minowe.
+	 */
 	private void setField(){
 		for(int i = 0; i < x; i++){
 			for(int j = 0; j < y; j++){
@@ -95,26 +119,36 @@ public class MineField extends JPanel{
 			}
 		}
 	}
-
+	
+	/**
+	 * Metoda sprawdzająca warunek zwycięstwa.
+	 */
 	public void checkVictory(){
-		int successCount = 0;
-		for(int i = 0; i < x; i++){
-			for(int j = 0; j < y; j++){
-				if(tiles[i][j].isMine() && tiles[i][j].isMarked()){
-					successCount++;
+		if(!won){
+			int successCount = 0;
+			for(int i = 0; i < x; i++){
+				for(int j = 0; j < y; j++){
+					if(tiles[i][j].isMine() && tiles[i][j].isMarked()){
+						successCount++;
+					}
+					if(!tiles[i][j].isMine() && tiles[i][j].isMarked()){
+						successCount--;
+					}
 				}
-				if(!tiles[i][j].isMine() && tiles[i][j].isMarked()){
-					successCount--;
+			}
+			if(successCount == bombs){
+				won = true;
+				if(JOptionPane.showConfirmDialog(this, "You won. Start again?") == 0){
+					App.newGame();
 				}
 			}
 		}
-		if(successCount == bombs){
-			if(JOptionPane.showConfirmDialog(this, "You won. Start again?") == 0){
-				App.newGame();
-			}
-		}
+		
 	}
 	
+	/**
+	 * Metoda kończąca grę porażką.
+	 */
 	public void endGame() {
 		for(int i = 0; i < x; i++){
 			for(int j = 0; j < y; j++){

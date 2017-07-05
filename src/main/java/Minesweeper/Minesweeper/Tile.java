@@ -8,10 +8,10 @@ import java.awt.event.MouseListener;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
+/**
+ * Klasa reprezentująca jedno pole - zaminowane lub nie.
+ */
 public class Tile extends JComponent {
-	/**
-	 * 
-	 */
 	private MineField mf;
 	private static final long serialVersionUID = 1L;
 	private int x,y;
@@ -22,6 +22,12 @@ public class Tile extends JComponent {
 	private boolean isMarked = false;
 	private boolean checked = false;
 
+	/**
+	 * Konstruktor tworzący pole.
+	 * @param x Miejsce w wymiarze X tabeli pola minowego.
+	 * @param y Miejsce w wymiarze Y tabeli pola minowego.
+	 * @param mf Referencja pola minowego, na którym leży nasze pojedyncze pole.
+	 */
 	public Tile(int x, int y, MineField mf) {
 		this.mf = mf;
 		this.x = x;
@@ -62,6 +68,10 @@ public class Tile extends JComponent {
 		});
 	}
 	
+	
+	/**
+	 * Metoda oznaczająca dane pole
+	 */
 	private void mark() {
 		if (!isMarked)
 			isMarked = true;
@@ -72,6 +82,9 @@ public class Tile extends JComponent {
 		mf.checkVictory();
 	}
 
+	/**
+	 * Metoda podświetlająca pole, na którym znajduje się kursor
+	 */
 	private void select() {
 		if (!isSelected)
 			isSelected = true;
@@ -79,12 +92,15 @@ public class Tile extends JComponent {
 			isSelected = false;
 		
 		repaint();
-		mf.checkVictory();
 	}
 	
+	/**
+	 * Metoda odsłaniająca pole
+	 */
 	public void check(){
 		if(!checked){
 			checked = true;
+			isMarked = false;
 			if(!isMine){
 				if(surroundings == 0){
 					mf.informSurroundingsAboutBlank(x, y);
@@ -97,22 +113,37 @@ public class Tile extends JComponent {
 		}	
 	}
 	
+	/**
+	 * Setter
+	 */
 	public void setMine(){
 		isMine = true;
 	}
 	
+	/**
+	 * Getter
+	 */
 	public boolean isMine(){
 		return isMine;
 	}
 	
+	/**
+	 * Getter
+	 */
 	public boolean isMarked(){
 		return isMarked;
 	}
 	
+	/**
+	 * Metoda inkrementująca ilość min w sąsiedztwie
+	 */
 	public void addSurroundings(){
 		this.surroundings++;
 	}
 
+	/**
+	 * Override metody z klasy JComponent rysującej komponent
+	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		if (!checked) {
