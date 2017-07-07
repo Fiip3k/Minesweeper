@@ -30,6 +30,7 @@ public class App
 		f.setLayout(new GridLayout(1,1));
 		mf = new MineField(size,size);
 		f.add(mf);
+		f.setJMenuBar(new Menu());
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);		
 	}
@@ -44,11 +45,19 @@ public class App
 	/**
 	 * Metoda usuwająca starą, wygraną lub przegraną grę i rozpoczynająca nową rundę.
 	 */
+	public static void newGame(int newSize) {
+		size = newSize;
+		f.remove(mf);
+		mf = new MineField(size, size);
+		f.add(mf);
+		f.revalidate();
+		f.repaint();
+	}
+	
 	public static void newGame() {
 		f.remove(mf);
-		mf = new MineField(size,size);
-		f.add(mf);
-		
+		mf = new MineField(size, size);
+		f.add(mf);		
 		f.revalidate();
 		f.repaint();
 	}
