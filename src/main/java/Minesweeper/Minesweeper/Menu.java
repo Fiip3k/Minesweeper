@@ -6,7 +6,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-
+/**
+ * Klasa reprezentująca menu gry.
+ */
 public class Menu extends JMenuBar{
 	private static final long serialVersionUID = 1L;
 	private JMenu game;

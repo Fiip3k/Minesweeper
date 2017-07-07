@@ -44,6 +44,7 @@ public class App
 
 	/**
 	 * Metoda usuwająca starą, wygraną lub przegraną grę i rozpoczynająca nową rundę.
+	 * @param newSize Rozmiar nowego pola minowego.
 	 */
 	public static void newGame(int newSize) {
 		size = newSize;
@@ -54,6 +55,9 @@ public class App
 		f.repaint();
 	}
 	
+	/**
+	 * Metoda usuwająca starą, wygraną lub przegraną grę i rozpoczynająca nową rundę. Wersja bezparametrowa - wykorzystuje ostatni użyty rozmiar.
+	 */
 	public static void newGame() {
 		f.remove(mf);
 		mf = new MineField(size, size);
